@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<!--
+  冯俊鑫 · 个人主页
+  风格参考：扣子官网（Coze）——
+  暖白大留白 · 两段式浅暖灰分区 · 近黑大标题 · 黑色胶囊按钮 · 轻薄圆角卡片 · 柔和马卡龙点缀
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>冯俊鑫 · 个人主页</title>
+<style>
+  :root {
+    --bg: #f7f7f5;          /* 暖白页面底色 */
+    --band-alt: #f1efea;    /* 浅暖灰分区背景 */
+    --surface: #ffffff;
+    --text: #161616;        /* 近黑正文 */
+    --muted: #6f6f6f;       /* 中灰辅助文字 */
+    --border: #e7e4df;      /* 暖色细边框 */
+    --accent: #151515;      /* 黑色按钮 */
+    --accent-soft: #f1efea;
+    --radius: 24px;
+    --maxw: 880px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  /* nav */
+  nav {
+    position: fixed; inset: 0 0 auto 0; z-index: 50;
+    background: #ffffff;
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner {
+    max-width: var(--maxw); margin: 0 auto; padding: 14px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-brand { font-weight: 700; font-size: 15px; letter-spacing: .2px; }
+  .nav-links { display: flex; gap: 26px; font-size: 14px; color: var(--muted); }
+  .nav-links a { transition: .2s; }
+  .nav-links a:hover { color: var(--text); }
+  @media (max-width: 680px) { .nav-links { display: none; } }
+
+  /* 分区带（全宽背景 + 居中内容） */
+  .band { width: 100%; padding: 104px 24px; }
+  .band.alt { background: var(--band-alt); }
+  .inner { max-width: var(--maxw); margin: 0 auto; }
+
+  .section-header { margin-bottom: 44px; }
+  .section-kicker {
+    display: flex; align-items: center;
+    font-size: 12px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 12px;
+  }
+  .section-kicker::before {
+    content: ""; width: 9px; height: 9px; border-radius: 50%;
+    background: var(--dot, #cbb9a6); margin-right: 9px;
+  }
+  .section-title { font-size: 34px; font-weight: 800; letter-spacing: -0.6px; }
+  @media (max-width: 560px) { .section-title { font-size: 27px; } }
+
+  /* hero */
+  .hero {
+    background:
+      radial-gradient(70% 55% at 50% 0%, rgba(20,20,20,.05), transparent 70%),
+      #ffffff;
+    min-height: 100vh; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; text-align: center;
+    padding: 140px 24px 100px;
+  }
+  .avatar-wrap {
+    width: 128px; height: 128px; border-radius: 50%;
+    overflow: hidden; margin-bottom: 30px;
+    border: 4px solid #fff;
+    box-shadow: 0 10px 36px rgba(0,0,0,.12);
+  }
+  .avatar-wrap img { width: 100%; height: 100%; object-fit: cover; }
+  .hero h1 { font-size: 56px; font-weight: 800; letter-spacing: -1.8px; }
+  @media (max-width: 560px) { .hero h1 { font-size: 38px; } }
+  .hero .meta {
+    margin-top: 18px; display: flex; flex-wrap: wrap; gap: 10px;
+    justify-content: center; align-items: center;
+  }
+  .hero .pill {
+    font-size: 13px; font-weight: 600; color: var(--muted);
+    background: var(--surface); border: 1px solid var(--border);
+    padding: 6px 15px; border-radius: 999px;
+  }
+  .hero .lead {
+    margin-top: 24px; color: var(--muted); font-size: 17px;
+    max-width: 620px; line-height: 1.8;
+  }
+  .hero .cta-row { margin-top: 34px; display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 12px 24px; border-radius: 999px; font-size: 14px; font-weight: 600;
+    border: 1px solid var(--border); background: var(--surface); color: var(--text);
+    transition: .2s;
+  }
+  .btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(0,0,0,.10); }
+
+  /* 个人优势 */
+  .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+  @media (max-width: 680px) { .cards { grid-template-columns: 1fr; } }
+  .card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 26px;
+    box-shadow: 0 1px 2px rgba(0,0,0,.04);
+    transition: .2s;
+  }
+  .card:hover { transform: translateY(-3px); box-shadow: 0 14px 38px rgba(0,0,0,.07); }
+  .card h4 { font-size: 16px; font-weight: 700; margin-bottom: 9px; }
+  .card p { color: var(--muted); font-size: 14.5px; line-height: 1.7; }
+
+  /* 性格标签 */
+  .traits { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 36px; }
+  .trait {
+    font-size: 14px; font-weight: 600; color: var(--text);
+    background: transparent; border: 1px solid var(--border);
+    padding: 8px 16px; border-radius: 999px;
+  }
+
+  /* 经历 */
+  .timeline { display: grid; gap: 22px; }
+  .entry {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 28px;
+    box-shadow: 0 1px 2px rgba(0,0,0,.04);
+  }
+  .entry header { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 10px; }
+  .entry h3 { font-size: 18px; font-weight: 700; }
+  .entry .when { font-size: 13px; color: var(--muted); font-weight: 600; }
+  .entry .org { font-size: 14px; color: var(--text); font-weight: 600; margin-bottom: 12px; }
+  .entry p { color: var(--muted); font-size: 15px; line-height: 1.8; }
+
+  /* 作品集 */
+  .works { display: grid; gap: 24px; }
+  .work {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden;
+    box-shadow: 0 1px 2px rgba(0,0,0,.04);
+    transition: .2s;
+  }
+  .work:hover { transform: translateY(-3px); box-shadow: 0 18px 46px rgba(0,0,0,.08); }
+  .work video { width: 100%; display: block; background: #000; max-height: 460px; }
+  .work .body { padding: 22px 26px; }
+  .work h3 { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+  .work p { color: var(--muted); font-size: 14.5px; }
+
+  /* 技能 */
+  .skill-block { margin-bottom: 26px; }
+  .skill-block h4 { font-size: 15px; font-weight: 700; margin-bottom: 14px; color: var(--text); }
+  .skills { display: flex; flex-wrap: wrap; gap: 10px; }
+  .skill {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 999px; padding: 8px 16px; font-size: 14px; font-weight: 500;
+    transition: .2s;
+  }
+  .skill:hover { border-color: var(--accent); }
+
+  /* 联系 */
+  .contact-list { display: grid; grid-template-columns: repeat(2,1fr); gap: 14px; }
+  @media (max-width: 560px) { .contact-list { grid-template-columns: 1fr; } }
+  .contact-item {
+    display: flex; align-items: center; gap: 14px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 18px; padding: 18px;
+    transition: .2s;
+  }
+  .contact-item:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(0,0,0,.06); }
+  .contact-item .ico {
+    width: 40px; height: 40px; flex: none; border-radius: 12px;
+    background: var(--accent-soft); color: var(--text);
+    display: grid; place-items: center; font-size: 17px;
+  }
+  .contact-item .label { font-size: 12px; color: var(--muted); }
+  .contact-item .val { font-size: 15px; font-weight: 700; word-break: break-all; }
+
+  footer {
+    text-align: center; padding: 44px 24px 64px; color: var(--muted);
+    font-size: 13px; background: #ffffff; border-top: 1px solid var(--border);
+  }
+
+  .reveal { opacity: 0; transform: translateY(26px); transition: opacity .7s ease, transform .7s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
+
+  /* 马卡龙色点缀（对应扣子排彩色头像） */
+  #about   { --dot: #ef9a6b; }
+  #intern  { --dot: #7fb5d6; }
+  #campus  { --dot: #9ec7a3; }
+  #works   { --dot: #d99ec2; }
+  #skills  { --dot: #b8a3d9; }
+  #contact { --dot: #e8b878; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <span class="nav-brand">冯俊鑫</span>
+    <div class="nav-links">
+      <a href="#about">个人介绍</a>
+      <a href="#intern">实习经历</a>
+      <a href="#campus">校园经历</a>
+      <a href="#works">作品集</a>
+      <a href="#skills">技能</a>
+      <a href="#contact">联系</a>
+    </div>
+  </div>
+</nav>
+
+<!-- 1. 开头：Hero + 个人优势 + 性格特质 + 教育背景标签 -->
+<header class="hero" id="top">
+  <div class="avatar-wrap">
+    <img src="avatar.jpg" alt="冯俊鑫头像">
+  </div>
+  <h1>冯俊鑫</h1>
+  <div class="meta">
+    <span class="pill">音乐表演 · 新媒体 / 内容运营</span>
+    <span class="pill">桂林旅游学院 · 本科</span>
+    <span class="pill">校级二等奖学金</span>
+  </div>
+  <p class="lead">大三在读，兼具音乐表演的创意感性思维与项目执行的系统思维。拥有校园新媒体运营、个人内容创作及快消品线下促销全链路实践经验，渴望在内容、电商与新媒体运营领域持续成长。</p>
+  <div class="cta-row">
+    <a class="btn btn-primary" href="#contact">联系我 →</a>
+    <a class="btn" href="#works">看作品</a>
+  </div>
+</header>
+
+<section class="band reveal" id="about">
+  <div class="inner">
+    <div class="section-header">
+      <div class="section-kicker">Personal Introduction</div>
+      <h2 class="section-title">个人优势与性格特质</h2>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <h4>全链路运营经验</h4>
+        <p>从内容选题策划、文案撰写、视觉制作到流量转化、数据复盘，完整参与运营全流程。</p>
+      </div>
+      <div class="card">
+        <h4>强执行力</h4>
+        <p>能快速适应多任务并行，独立承担可口可乐线下活动运营、校园活动物料制作与全渠道宣传方案落地。</p>
+      </div>
+      <div class="card">
+        <h4>用户思维与转化意识</h4>
+        <p>以数据驱动优化策略，实习期间超额 32% 完成销售目标，位列同期实习生第 2。</p>
+      </div>
+      <div class="card">
+        <h4>跨界复合能力</h4>
+        <p>音乐表演的创意感性 + 项目执行的系统思维，能多维度支持策划与文案工作。</p>
+      </div>
+    </div>
+    <div class="traits">
+      <span class="trait">执行力强</span>
+      <span class="trait">适应力好</span>
+      <span class="trait">沟通协调</span>
+      <span class="trait">持续学习</span>
+      <span class="trait">团队协作</span>
+      <span class="trait">数据敏感</span>
+    </div>
+  </div>
+</section>
+
+<!-- 2. 实习经历 -->
+<section class="band alt reveal" id="intern">
+  <div class="inner">
+    <div class="section-header">
+      <div class="section-kicker">Internship</div>
+      <h2 class="section-title">实习经历</h2>
+    </div>
+    <div class="timeline">
+      <article class="entry">
+        <header>
+          <h3>直播中控</h3>
+          <span class="when">2026.06 — 2026.07</span>
+        </header>
+        <div class="org">广州朋生科技有限公司（诸葛茅庐咨询）</div>
+        <p>主要负责直播间全流程运营执行：全程把控直播实时操作，完成直播间挂载组件配置与氛围运营，熟练运用 OBS 实现直播录屏素材循环推流开播；直播后统一统计带货业绩及千川、视频号渠道投放数据，建立专属数据台账，拆解成交节奏并挖掘优化方向。主动收集主播业务需求，对接内容、投放等多部门推动落地，跟踪短视频投放素材引流表现并反馈迭代建议，形成数据分析、跨部门协同与商业化运营思维。</p>
+      </article>
+      <article class="entry">
+        <header>
+          <h3>线下活动运营</h3>
+          <span class="when">2026.02 — 2026.03</span>
+        </header>
+        <div class="org">广西太古可口可乐有限公司</div>
+        <p>春节快消核心销售节点，独立负责本地核心卖场新年限定产品的线下活动运营、数据化库存管理及渠道资源对接。通过复盘销售数据动态优化转化策略、建立 Excel 动态库存跟踪表、维护渠道关系争取黄金陈列资源，最终超额 32% 完成销售目标（同期实习生第 2），库存管理方案被推广至 3 个卖场，精准匹配家庭客群的推荐方式带动套餐销量提升 27%。</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- 3. 校园经历 -->
+<section class="band reveal" id="campus">
+  <div class="inner">
+    <div class="section-header">
+      <div class="section-kicker">Campus Experience</div>
+      <h2 class="section-title">校园经历</h2>
+    </div>
+    <div class="timeline">
+      <article class="entry">
+        <header>
+          <h3>“乐动心灵·舞动心弦”校园心理健康主题活动 · 协调与宣传负责人</h3>
+          <span class="when">2025.03 — 2025.04</span>
+        </header>
+        <div class="org">桂林旅游学院</div>
+        <p>探索艺术疗愈心理疏导模式，统筹跨 5 部门资源协作，制定项目甘特图拆解全流程任务，策划“线上+线下”全渠道宣传方案并制作运营物料。活动吸引 350 余名学生参与（超预期 15%），宣传触达全校 60% 学生，总结的活动模式被学校心理中心采纳为官方参考模板。</p>
+      </article>
+      <article class="entry">
+        <header>
+          <h3>校园官方自媒体运营 · 核心运营成员</h3>
+          <span class="when">2024.09 — 2025.12</span>
+        </header>
+        <div class="org">桂林旅游学院</div>
+        <p>负责校园活动宣传与校园物料输出，通过分析后台数据优化内容发布时间与选题方向，使账号平均浏览量较之前提升 30%，多篇宣传内容带动校园活动参与与关注人数增加 28%。</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- 4. 作品集 -->
+<section class="band alt reveal" id="works">
+  <div class="inner">
+    <div class="section-header">
+      <div class="section-kicker">Portfolio</div>
+      <h2 class="section-title">作品集</h2>
+    </div>
+    <div class="works">
+      <div class="work">
+        <video src="koubo.mp4" controls preload="metadata"></video>
+        <div class="body">
+          <h3>口播短视频作品</h3>
+          <p>个人出镜口播内容，涵盖选题、文案、拍摄与剪辑的全流程制作。</p>
+        </div>
+      </div>
+      <div class="work">
+        <div class="body">
+          <h3>校园官方新媒体运营内容</h3>
+          <p>作为学校官方新媒体核心成员，产出校园活动宣传物料与内容，账号平均浏览量提升 30%。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. 技能特长（作品集之后） -->
+<section class="band reveal" id="skills">
+  <div class="inner">
+    <div class="section-header">
+      <div class="section-kicker">Skills</div>
+      <h2 class="section-title">技能特长</h2>
+    </div>
+    <div class="skill-block">
+      <h4>硬技能</h4>
+      <div class="skills">
+        <span class="skill">Office 办公</span>
+        <span class="skill">平台后台工具</span>
+        <span class="skill">基础剪辑工具</span>
+        <span class="skill">文档协作工具</span>
+      </div>
+    </div>
+    <div class="skill-block">
+      <h4>软技能</h4>
+      <div class="skills">
+        <span class="skill">活动策划</span>
+        <span class="skill">高效执行</span>
+        <span class="skill">沟通协调</span>
+        <span class="skill">数据敏感度</span>
+        <span class="skill">内容拆解</span>
+        <span class="skill">逻辑框架</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. 联系方式 -->
+<section class="band alt reveal" id="contact">
+  <div class="inner">
+    <div class="section-header">
+      <div class="section-kicker">Contact</div>
+      <h2 class="section-title">联系方式</h2>
+    </div>
+    <div class="contact-list">
+      <div class="contact-item">
+        <div class="ico">✉</div>
+        <div>
+          <div class="label">邮箱</div>
+          <div class="val"><a href="mailto:1976003695@qq.com">1976003695@qq.com</a></div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="ico">☎</div>
+        <div>
+          <div class="label">电话</div>
+          <div class="val"><a href="tel:15878429902">15878429902</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © <span id="year"></span> 冯俊鑫 · 用 ❤️ 与简洁打造
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
