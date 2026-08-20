@@ -142,6 +142,8 @@
 
   /* 作品集 */
   .works { display: grid; gap: 24px; }
+  .work-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  @media (max-width: 680px) { .work-row { grid-template-columns: 1fr; } }
   .work {
     background: var(--surface); border: 1px solid var(--border);
     border-radius: var(--radius); overflow: hidden;
@@ -334,11 +336,20 @@
       <h2 class="section-title">作品集</h2>
     </div>
     <div class="works">
-      <div class="work">
-        <video src="koubo.mp4" controls preload="metadata"></video>
-        <div class="body">
-          <h3>口播短视频作品</h3>
-          <p>个人出镜口播内容，涵盖选题、文案、拍摄与剪辑的全流程制作。</p>
+      <div class="work-row">
+        <div class="work">
+          <video src="koubo.mp4" controls preload="metadata"></video>
+          <div class="body">
+            <h3>口播短视频作品</h3>
+            <p>个人出镜口播内容，涵盖选题、文案、拍摄与剪辑的全流程制作。</p>
+          </div>
+        </div>
+        <div class="work">
+          <video src="xinxiu.mp4" controls preload="metadata"></video>
+          <div class="body">
+            <h3>信息流短视频作品</h3>
+            <p>信息流投放向短视频，围绕产品卖点做节奏化剪辑与转化引导，适配短视频平台流量逻辑。</p>
+          </div>
         </div>
       </div>
       <div class="work">
