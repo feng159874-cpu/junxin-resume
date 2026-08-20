@@ -143,7 +143,7 @@
   /* 作品集 */
   .works { display: grid; gap: 24px; }
   .work-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
-  @media (max-width: 680px) { .work-row { grid-template-columns: 1fr; } }
+  @media (max-width: 560px) { .work-row { gap: 12px; } }
   .work {
     background: var(--surface); border: 1px solid var(--border);
     border-radius: var(--radius); overflow: hidden;
@@ -151,10 +151,36 @@
     transition: .2s;
   }
   .work:hover { transform: translateY(-3px); box-shadow: 0 18px 46px rgba(0,0,0,.08); }
-  .work video { width: 100%; display: block; background: #000; max-height: 460px; }
+  .work video { width: 100%; display: block; background: #000; max-height: 460px; cursor: zoom-in; }
   .work .body { padding: 22px 26px; }
   .work h3 { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
   .work p { color: var(--muted); font-size: 14.5px; }
+  /* 全屏播放按钮 */
+  .work { position: relative; }
+  .fs-btn {
+    position: absolute; top: 10px; right: 10px; z-index: 2;
+    font-size: 12px; font-weight: 600; color: #fff; cursor: pointer;
+    background: rgba(0,0,0,.5); border: none; border-radius: 999px;
+    padding: 6px 12px; backdrop-filter: blur(2px); transition: .2s;
+  }
+  .fs-btn:hover { background: rgba(0,0,0,.78); }
+  /* 全屏弹窗 */
+  .video-modal {
+    position: fixed; inset: 0; z-index: 100; display: none;
+    background: rgba(0,0,0,.92);
+    align-items: center; justify-content: center; padding: 20px;
+  }
+  .video-modal.open { display: flex; }
+  .video-modal video {
+    max-width: 100%; max-height: 86vh; width: auto; height: auto;
+    border-radius: 14px; background: #000;
+  }
+  .video-modal .close {
+    position: absolute; top: 16px; right: 22px;
+    font-size: 32px; line-height: 1; color: #fff;
+    background: none; border: none; cursor: pointer;
+  }
+  .video-modal .close:hover { opacity: .7; }
 
   /* 技能 */
   .skill-block { margin-bottom: 26px; }
@@ -338,6 +364,7 @@
     <div class="works">
       <div class="work-row">
         <div class="work">
+          <button class="fs-btn" type="button" aria-label="全屏播放">⛶ 全屏</button>
           <video src="koubo.mp4" controls preload="metadata"></video>
           <div class="body">
             <h3>口播短视频作品</h3>
@@ -345,6 +372,7 @@
           </div>
         </div>
         <div class="work">
+          <button class="fs-btn" type="button" aria-label="全屏播放">⛶ 全屏</button>
           <video src="xinxiu.mp4" controls preload="metadata"></video>
           <div class="body">
           <h3>信息流广告短视频</h3>
@@ -428,7 +456,44 @@
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
   }, { threshold: 0.12 });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  /* 点击视频 / 全屏按钮 → 全屏弹窗播放 */
+  (function () {
+    const modal = document.getElementById('videoModal');
+    const modalVideo = document.getElementById('modalVideo');
+    const closeBtn = modal.querySelector('.close');
+    function openModal(src) {
+      modalVideo.src = src;
+      modal.classList.add('open');
+      modalVideo.play().catch(() => {});
+    }
+    function closeModal() {
+      modal.classList.remove('open');
+      modalVideo.pause();
+      modalVideo.removeAttribute('src');
+      modalVideo.load();
+    }
+    document.querySelectorAll('.work video').forEach(v => {
+      v.addEventListener('click', () => openModal(v.currentSrc || v.src));
+    });
+    document.querySelectorAll('.fs-btn').forEach(b => {
+      b.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const v = b.closest('.work').querySelector('video');
+        openModal(v.currentSrc || v.src);
+      });
+    });
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+  })();
 </script>
+
+<!-- 全屏播放弹窗 -->
+<div class="video-modal" id="videoModal">
+  <button class="close" type="button" aria-label="关闭">×</button>
+  <video id="modalVideo" controls playsinline></video>
+</div>
 
 </body>
 </html>
