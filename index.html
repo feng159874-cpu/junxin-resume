@@ -457,11 +457,17 @@
   }, { threshold: 0.12 });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-  /* 点击视频 / 全屏按钮 → 全屏弹窗播放 */
+  /* 点击视频 / 全屏按钮 → 优先原生全屏，失败则自定义遮罩 */
   (function () {
     const modal = document.getElementById('videoModal');
     const modalVideo = document.getElementById('modalVideo');
     const closeBtn = modal.querySelector('.close');
+
+    function requestFs(el) {
+      const fn = el.requestFullscreen || el.webkitRequestFullscreen || el.msRequestFullscreen;
+      if (fn) { try { fn.call(el); return true; } catch (e) { return false; } }
+      return false;
+    }
     function openModal(src) {
       modalVideo.src = src;
       modal.classList.add('open');
@@ -473,14 +479,21 @@
       modalVideo.removeAttribute('src');
       modalVideo.load();
     }
+    function goFullscreen(videoEl) {
+      // 桌面端优先原生全屏（最可靠）
+      if (requestFs(videoEl)) return;
+      // 不支持时退回自定义遮罩
+      openModal(videoEl.currentSrc || videoEl.src);
+    }
+
     document.querySelectorAll('.work video').forEach(v => {
-      v.addEventListener('click', () => openModal(v.currentSrc || v.src));
+      v.addEventListener('click', () => goFullscreen(v));
     });
     document.querySelectorAll('.fs-btn').forEach(b => {
       b.addEventListener('click', (e) => {
         e.stopPropagation();
         const v = b.closest('.work').querySelector('video');
-        openModal(v.currentSrc || v.src);
+        goFullscreen(v);
       });
     });
     closeBtn.addEventListener('click', closeModal);
